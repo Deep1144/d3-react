@@ -1,0 +1,23 @@
+.line {
+  fill: none;
+  stroke: steelblue;
+  stroke-width: 2px;
+}
+
+.line:hover {
+  stroke-width: 5px;
+}
+
+.axisSteelBlue text {
+  fill: steelblue;
+}
+
+.axisRed text {
+  fill: red;
+}
+
+.legend {
+  font: 16px sans-serif;
+  font-weight: bold;
+  text-anchor: start;
+}
