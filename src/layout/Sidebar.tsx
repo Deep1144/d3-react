@@ -1,13 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { Button, NavbarBrand } from "react-bootstrap";
-
-const Items = [
-  {
-    name: "Bar Chart",
-    route: "bar-chart",
-  },
-];
+import { NavbarBrand } from "react-bootstrap";
+import { Routes } from "../routes";
 
 function Sidebar() {
   return (
@@ -20,11 +14,13 @@ function Sidebar() {
         style={{ opacity: "0.4" }}
       />
       <div>
-        {Items.map((e) => {
+        {Routes.map((e) => {
           return (
-            <Link to={e.route} key={e.route} className="text-white">
-              {e.name}
-            </Link>
+            <div key={e.route} className='mb-3'>
+              <Link to={e.route} className="text-white">
+                {e.name}
+              </Link>
+            </div>
           );
         })}
       </div>
