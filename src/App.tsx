@@ -1,5 +1,10 @@
 import React, { useState } from "react";
-import { BrowserRouter as Router, Link, Route } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Link,
+  Route,
+  Redirect,
+} from "react-router-dom";
 import "./App.css";
 import BarChart from "./charts/Bar.chart";
 import Layout from "./layout/layout";
@@ -9,12 +14,9 @@ function App() {
   return (
     <Router>
       <Layout>
-        <Route exact path="/">
+        <Redirect exact path="/" to="bar-chart"></Redirect>
+        <Route exact path="/bar-chart">
           <BarChart />
-        </Route>
-
-        <Route exact path="/home">
-          <div>Home</div>
         </Route>
       </Layout>
     </Router>

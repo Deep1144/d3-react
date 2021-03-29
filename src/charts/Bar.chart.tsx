@@ -9,6 +9,7 @@ import {
   axisLeft,
   selectAll,
 } from "d3";
+import "./Bar.chart.css";
 
 function BarChart() {
   async function init() {
@@ -18,8 +19,8 @@ function BarChart() {
       bottom: 70,
       left: 40,
     };
-    const width = 600 - margins.left - margins.right;
-    const height = 300 - margins.top - margins.bottom;
+    const width = 800 - margins.left - margins.right;
+    const height = 400 - margins.top - margins.bottom;
 
     const xScale = scaleBand().range([0, width]).padding(0.1);
     const yScale = scaleLinear().range([height, 0]);
@@ -52,7 +53,8 @@ function BarChart() {
     rects
       .enter()
       .append("rect")
-      .attr("class", "bar")
+      // .attr("class", "bar")
+      .classed("bar", true)
       .merge(rects)
       .attr("x", (d: { salesperson: any }) => xScale(d.salesperson))
       .attr("width", xScale.bandwidth())
@@ -95,6 +97,7 @@ function BarChart() {
     init();
     return () => {
       select(".bar-chart").selectChild("*").remove();
+      selectAll(".tooltip").remove();
     };
   }, []);
   return (
