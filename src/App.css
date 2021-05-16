@@ -13,3 +13,6 @@
   border-radius: 8px;
   pointer-events: none;
 }
+.active{
+  opacity: 0.7;
+}
