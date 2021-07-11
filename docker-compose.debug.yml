@@ -1,0 +1,16 @@
+version: '3.4'
+
+services:
+  d3react:
+    image: d3react
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    ports:
+      - 3000:3000
+      - 9229:9229
+    volumes: 
+      - ./src:/app/src
+      - ./public:/app/public
+      # - node_modules
+    command: ["npm", "run", "dev"]
