@@ -8,7 +8,7 @@ function Layout(props) {
       <Col className="p-0 " sm={2}>
         <Sidebar />
       </Col>
-      <Col className="d-flex justify-content-center align-items-center">
+      <Col sm={10} className="d-flex justify-content-center align-items-center">
         {props.children}
       </Col>
     </Row>
