@@ -1,105 +1,100 @@
 import React, { useEffect, useState } from "react";
 import * as d3 from "d3";
+import "./Force.css";
+
+// https://bl.ocks.org/steveharoz/8c3e2524079a8c440df60c1ab72b5d03
 
 function Force() {
-  const allGroup = ["valueA", "valueB", "valueC"];
-  const [group, setGroup] = useState(allGroup[0]);
-  const margins = {
-    top: 20,
-    right: 20,
-    bottom: 70,
-    left: 40,
-  };
-  const width = 800 - margins.left - margins.right;
-  const height = 400 - margins.top - margins.bottom;
+  const width = 600;
+  const height = 400;
 
-  const x = d3.scaleLinear().range([0, width]);
-  const y = d3.scaleLinear().range([height, 0]);
-  const color = d3.scaleOrdinal().domain(allGroup).range(d3.schemeAccent);
-  const [svg, setSvg] = useState(null);
-  const [xAxis, setXAxis] = useState(null);
-  const [yAxis, setYAxis] = useState(null);
-  const [pathG, setPathG] = useState(null);
+  const nodes: any = [
+    { name: "A", radius: Math.random() * 100 },
+    { name: "B", radius: Math.random() * 100 },
+    { name: "C", radius: Math.random() * 100 },
+    { name: "D", radius: Math.random() * 100 },
+    { name: "E", radius: Math.random() * 100 },
+    { name: "F", radius: Math.random() * 100 },
+    { name: "G", radius: Math.random() * 100 },
+    { name: "H", radius: Math.random() * 100 },
+  ];
 
-  function init() {
-    d3.csv("/data/dynamic-line.csv").then((rawData) => {
-      const data = rawData.map((e) => {
-        return {
-          time: +e.time,
-          value: +e[group],
-        };
-      });
+  const links: any = [
+    { source: 0, target: 1 },
+    { source: 0, target: 2 },
+    { source: 0, target: 3 },
+    { source: 1, target: 6 },
+    { source: 3, target: 4 },
+    { source: 3, target: 7 },
+    { source: 4, target: 5 },
+    { source: 4, target: 7 },
+  ];
 
-      x.domain([0, d3.max(data, (d) => +d.time)]).nice();
-      y.domain([0, d3.max(data, (d) => d.value + 1)]).nice();
-
-      xAxis.call(d3.axisBottom(x));
-      yAxis.call(d3.axisLeft(y));
-
-      const updateData = pathG.selectAll("path").data([data]);
-      updateData.exit().remove();
-      const line = updateData
-        .enter()
-        .append("path")
-        .merge(updateData)
-        .attr(
-          "d",
-          d3
-            .line()
-            .x((d: any) => {
-              return x(d.time);
-            })
-            .y((d: any) => {
-              return y(d.value);
-            })
-        )
-        .attr("stroke", function (d) {
-          return color(group);
+  useEffect(() => {
+    d3.forceSimulation(nodes)
+      .force("charge", d3.forceManyBody().strength(-200))
+      .force("center", d3.forceCenter(width / 2, height / 2))
+      .force("link", d3.forceLink().links(links))
+      .force(
+        "collision",
+        d3.forceCollide().radius(function (d: any) {
+          return d.radius;
         })
-        .style("stroke-width", 4)
-        .style("fill", "none");
-    });
-  }
+      )
+      .on("tick", ticked);
 
-  const onDropDownSelect = (event) => {
-    setGroup(event.target.value);
-  };
-
-  useEffect(() => {
-    const svg = d3
-      .select(".dynamic-line")
-      .attr("height", height + margins.top + margins.bottom)
-      .attr("width", width + margins.left + margins.right)
-      .append("g")
-      .attr("transform", `translate(${(margins.left, margins.top)})`);
-    setSvg(svg);
-    const g = svg.append("g");
-    const xAxis = svg.append("g").attr("transform", `translate(0 , ${height})`);
-    const yAxis = svg.append("g");
-    setXAxis(xAxis);
-    setYAxis(yAxis);
-    setPathG(g);
-  }, []);
-
-  useEffect(() => {
-    if (svg) {
-      init();
+    function updateLinks() {
+      d3.select(".links")
+        .selectAll("line")
+        .data(links)
+        .join("line")
+        .attr("x1", function (d: any) {
+          // console.log(d);
+          return d.source.x;
+        })
+        .attr("y1", function (d: any) {
+          return d.source.y;
+        })
+        .attr("x2", function (d: any) {
+          return d.target.x;
+        })
+        .attr("y2", function (d: any) {
+          return d.target.y;
+        });
     }
-  }, [svg, group]);
+
+    function updateNodes() {
+      d3.select(".nodes")
+        .selectAll("text")
+        .data(nodes)
+        .join("text")
+        .text(function (d: any) {
+          return d.name;
+        })
+        .attr("x", function (d: any) {
+          return d.x;
+        })
+        .attr("y", function (d: any) {
+          return d.y;
+        })
+        .attr("dy", function (d: any) {
+          return 5;
+        });
+    }
+
+    function ticked() {
+      updateLinks();
+      updateNodes();
+    }
+  }, []);
 
   return (
     <div>
-      <select id="selectButton" value={group} onChange={onDropDownSelect}>
-        {allGroup.map((e) => {
-          return (
-            <option key={e} value={e}>
-              {e}
-            </option>
-          );
-        })}
-      </select>
       <div className="mt-3">
-        <svg className="dynamic-line"></svg>
+        <svg width="600" height="400">
+          <g className="links"></g>
+          <g className="nodes"></g>
+        </svg>
       </div>
     </div>
   );
