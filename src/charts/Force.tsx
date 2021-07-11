@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import * as d3 from "d3";
-import "./Force.css";
+import "./Force.chart.css";
 
 // https://bl.ocks.org/steveharoz/8c3e2524079a8c440df60c1ab72b5d03
 
