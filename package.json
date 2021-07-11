@@ -6,7 +6,7 @@
     "build": "tsc && vite build",
     "serve": "vite preview",
     "predeploy": "echo running deployment",
-    "docker:dev": "docker-compose -f \"docker-compose.debug.yml\" up --build",
+    "docker:dev": "docker-compose -f \"docker-compose.debug.yml\" up",
     "docker": "docker-compose up --build -d"
   },
   "dependencies": {

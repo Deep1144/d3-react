@@ -4,6 +4,7 @@ import LineChart from "./charts/Line.chart";
 import DynamicLine from "./charts/Dynamic-Line";
 import Force from "./charts/Force";
 import Joins from "./charts/Joins";
+import Updatejoins from "./charts/Updatejoins";
 
 interface IRoute {
   name: string;
@@ -36,5 +37,10 @@ export const Routes: IRoute[] = [
     name: "Joins",
     route: "joins",
     component: Joins,
+  },
+  {
+    name: "Update Joins",
+    route: "update-joins",
+    component: Updatejoins,
   },
 ];
