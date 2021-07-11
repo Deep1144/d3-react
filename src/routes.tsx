@@ -2,6 +2,7 @@ import React from "react";
 import BarChart from "./charts/Bar.chart";
 import LineChart from "./charts/Line.chart";
 import DynamicLine from "./charts/Dynamic-Line";
+import Force from "./charts/Force";
 
 interface IRoute {
   name: string;
@@ -24,5 +25,10 @@ export const Routes: IRoute[] = [
     name: "Dynmic Line",
     route: "dynamic-line",
     component: DynamicLine,
+  },  
+  {
+    name: "Force Chart",
+    route: "force",
+    component: Force,
   },
 ];
